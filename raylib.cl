@@ -8,12 +8,21 @@
     #:EndDrawing
     #:ClearBackground
     #:SetTargetFPS
+    #:GetScreenWidth
+    #:GetScreenHeight
+    #:GetRenderWidth
+    #:GetRenderHeight
+    #:GetMonitorCount
+    #:GetCurrentMonitor
+    #:GetFPS
+    #:DrawPixel
+    #:DrawCircle
   ))
 (in-package :raylib)
 
 (define-alien-routine "InitWindow" void (width int) (height int) (title c-string))
 (define-alien-routine "CloseWindow" void)
-(define-alien-routine "WindowShouldClose" integer)
+(define-alien-routine "WindowShouldClose" int)
 (define-alien-routine "BeginDrawing" void)
 (define-alien-routine "EndDrawing" void)
 ; yes, raylib expects the "Color" structure but it's fine to pass it as an integer instead
@@ -22,5 +31,14 @@
 ; (at least on most platforms or at least on the platforms I care about)
 (define-alien-routine "ClearBackground" void (color (unsigned 32)))
 (define-alien-routine "SetTargetFPS" void (fps int))
+(define-alien-routine "GetScreenWidth" int)
+(define-alien-routine "GetScreenHeight" int)
+(define-alien-routine "GetRenderWidth" int)
+(define-alien-routine "GetRenderHeight" int)
+(define-alien-routine "GetMonitorCount" int)
+(define-alien-routine "GetCurrentMonitor" int)
+(define-alien-routine "GetFPS" int)
+(define-alien-routine "DrawPixel" void (posX int) (posY int) (color (unsigned 32)))
+(define-alien-routine "DrawCircle" void (centerX int) (centerY int) (radius float) (color (unsigned 32)))
 
 (load-shared-object "libraylib.so")
